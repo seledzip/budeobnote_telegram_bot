@@ -104,7 +104,8 @@ def generate_post():
         system=system_prompt,
         messages=[{"role": "user", "content": user_prompt}],
     )
-    raw = response.content[0].text.strip()
+    # [수정 후]
+    raw = "".join([block.text for block in response.content if hasattr(block, "text")]).strip()
     raw = re.sub(r"^```json|```$", "", raw.strip(), flags=re.MULTILINE).strip()
     data = json.loads(raw)
 
